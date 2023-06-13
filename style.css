@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+}
+
+canvas {
+    width: 90%;
+    height: auto;
+    background-color: rgb(255, 209, 82);;
+    image-rendering: pixelated;
+}
+
+body {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+span {
+    color: deeppink;
+    font-size: large;
+}
