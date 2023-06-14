@@ -53,6 +53,9 @@ export class Player {
     }
 
     setListener() {
+        document.addEventListener("click", _ => {
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: " " }))
+        })
         document.addEventListener("keydown", e => {
             if (Player.run) {
                 switch (e.key) {

@@ -12,8 +12,7 @@ const scoresE = document.querySelector('ol')
  * @type {{name: string, score: number}[]}
  */
 let scores = [{score: 0}]
-
-let score = 0
+let lastName, score = 0
 
 const player = new Player()
 
@@ -36,12 +35,20 @@ async function run() {
     
             for (let i = 0; i < 5; i++) {
                 if (score > scores[i].score) {
-                    let name = prompt("Digite um nome:")
+                    let name = prompt("Digite um nome:", lastName)
                     if (name) {
-                        scores.push({name: name.trim(), score})
-        
+                        let pre = scores.findIndex(e => e.name == name)
+                        if (pre != -1) {
+                            if (scores[pre].score < score) {
+                                scores.splice(pre, 1)
+                                scores.push({name: name.trim(), score})
+                                lastName = name.trim()
+                            }
+                        } else {
+                            scores.push({name: name.trim(), score})
+                            lastName = name.trim()
+                        }
                         drawScores()
-            
                         localStorage.scores = JSON.stringify(scores)
                     }
                     break
