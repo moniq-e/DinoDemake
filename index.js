@@ -1,11 +1,13 @@
 import { Player } from "./Player.js"
 import { Obstacle } from "./Obstacle.js"
 import { Floor } from "./Floor.js"
+import "./options.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 const speedSpan = document.querySelector("span#spe")
 const jumpSpan = document.querySelector("span#jum")
+const gravitySpan = document.querySelector("span#gra")
 const scoreSpan = document.querySelector("span#scr")
 const scoresE = document.querySelector('ol')
 /**
@@ -56,7 +58,7 @@ async function run() {
             }
     
             score = 0
-            Obstacle.speed = 5
+            Obstacle.speed = Obstacle.minSpeed
             obs.collided = true
         }
 
@@ -65,16 +67,16 @@ async function run() {
         player.tick()
     
         if (obs.change) obs = Obstacle.getRandom()
-    
+
         scoreSpan.innerText = score
         score++
         speedSpan.innerText = parseInt(Obstacle.speed)
-        jumpSpan.innerText = player.jumpSpeed
+        jumpSpan.innerText = player.jumpHeight
+        gravitySpan.innerText = player.gravity
     
         await new Promise(r => setTimeout(r, 30))
     }
 }
-run()
 
 export function drawScores() {
     scores.sort((a, b) => b.score - a.score)

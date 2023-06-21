@@ -5,9 +5,17 @@ const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
 export class Player {
-    static run = true
+    static options = {
+        mousejump: false,
+        hard: false,
+        infinity: false,
+        heavy: false
+    }
+    static run = false
     static size = parseInt(canvas.width * 0.1)
-    jumpSpeed = 7
+    static minJumpHeight = 7
+    gravity = 1
+    jumpHeight = 0
     jumps = 0
     fall = false
 
@@ -21,8 +29,9 @@ export class Player {
 
     tick() {
         this.y -= this.yvel
-        this.yvel--
-        this.jumpSpeed = 7 + parseInt(Obstacle.speed * 0.25)
+        this.gravity = Player.options.heavy ? (Obstacle.speed * 0.2) : 1
+        this.yvel -= this.gravity
+        this.jumpHeight = Player.minJumpHeight + parseInt(Obstacle.speed * 0.25)
 
         if (this.y > canvas.height - Player.size) {
             this.y = canvas.height - Player.size
@@ -42,7 +51,7 @@ export class Player {
             this.fall = true
         } else if (this.x > Floor.floor.x + Floor.floor.width && this.fall) {
             this.fall = false
-            this.yvel = this.jumpSpeed
+            this.yvel = this.jumpHeight
         }
         this.draw()
     }
@@ -53,15 +62,24 @@ export class Player {
     }
 
     setListener() {
-        document.addEventListener("click", _ => {
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: " " }))
+        document.querySelector("canvas").addEventListener("click", _ => {
+            if (Player.options.mousejump && this.jumps < 2) {
+                this.yvel = this.jumpHeight
+                this.jumps++
+            }
+        })
+        document.querySelector("canvas").addEventListener("touchstart", _ => {
+            if (Player.options.mousejump && this.jumps < 2) {
+                this.yvel = this.jumpHeight
+                this.jumps++
+            }
         })
         document.addEventListener("keydown", e => {
             if (Player.run) {
                 switch (e.key) {
                     case " ":
                         if (this.jumps < 2) {
-                            this.yvel = this.jumpSpeed
+                            this.yvel = this.jumpHeight
                             this.jumps++
                         }
                         break

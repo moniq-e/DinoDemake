@@ -3,7 +3,7 @@
 }
 
 canvas {
-    width: 90%;
+    width: 80%;
     height: auto;
     background-color: rgb(255, 209, 82);;
     image-rendering: pixelated;
@@ -20,4 +20,17 @@ body {
 span {
     color: deeppink;
     font-size: large;
+}
+
+#buttons div {
+    display: inline-block;
+    border: 2px solid deeppink;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+
+#buttons div:hover {
+    background-color: deeppink;
+    cursor: pointer;
 }

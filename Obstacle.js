@@ -1,8 +1,12 @@
+import { Player } from "./Player.js"
+
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
 export class Obstacle {
+    static minSpeed = 5
     static speed = 5
+    static maxSpeed = 12
     /**
      * @param {number} width
      * @param {number} height
@@ -19,7 +23,7 @@ export class Obstacle {
 
     tick() {
         this.x -= Math.floor(Obstacle.speed)
-        Obstacle.speed = Math.min(12, Obstacle.speed + 0.01)
+        Obstacle.speed = Player.options.infinity ? Obstacle.speed + 0.01 : Math.min(Obstacle.maxSpeed, Obstacle.speed + 0.01)
         if (this.x < 0 - this.width) this.change = true
         this.draw()
     }
