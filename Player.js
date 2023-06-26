@@ -12,16 +12,17 @@ export class Player {
         heavy: false
     }
     static run = false
-    static size = parseInt(canvas.width * 0.1)
-    static minJumpHeight = 7
-    gravity = 1
+    static width = parseInt(canvas.width * 0.1)
+    static height = parseInt(canvas.width * 0.1)
+    static minJumpHeight = 6
+    gravity = 0.5
     jumpHeight = 0
     jumps = 0
     fall = false
 
     constructor() {
-        this.x = canvas.width / 2 - Player.size / 2
-        this.y = canvas.height - Player.size
+        this.x = canvas.width / 2 - Player.width / 2
+        this.y = canvas.height - Player.height
         this.yvel = 0
 
         this.setListener()
@@ -29,23 +30,23 @@ export class Player {
 
     tick() {
         this.y -= this.yvel
-        this.gravity = Player.options.heavy ? (Obstacle.speed * 0.2) : 1
+        this.gravity = Player.options.heavy ? (Obstacle.speed * 0.2) : 0.5
         this.yvel -= this.gravity
         this.jumpHeight = Player.minJumpHeight + parseInt(Obstacle.speed * 0.25)
 
-        if (this.y > canvas.height - Player.size) {
-            this.y = canvas.height - Player.size
+        if (this.y > canvas.height - Player.height) {
+            this.y = canvas.height - Player.height
             this.yvel = 0
             this.jumps = 0
         } else if (this.y < 0) {
             this.y = 0
             this.yvel = 0
         } else if (this.x < Floor.floor.x + Floor.floor.width &&
-            this.x + Player.size > Floor.floor.x &&
+            this.x + Player.width > Floor.floor.x &&
             this.y < Floor.floor.y + Floor.floor.height &&
-            this.y + Player.size > Floor.floor.y) {
+            this.y + Player.height > Floor.floor.y) {
 
-            this.y = Floor.floor.y - Player.size
+            this.y = Floor.floor.y - Player.height
             this.yvel = 0
             this.jumps = 0
             this.fall = true
@@ -58,7 +59,7 @@ export class Player {
 
     draw() {
         ctx.fillStyle = '#000'
-        ctx.fillRect(this.x, this.y, Player.size, Player.size)
+        ctx.fillRect(this.x, this.y, Player.width, Player.height)
     }
 
     setListener() {
@@ -82,6 +83,26 @@ export class Player {
                             this.yvel = this.jumpHeight
                             this.jumps++
                         }
+                        e.preventDefault()
+                        break
+                    case "Shift":
+                        Player.height = parseInt(canvas.width * 0.025)
+                        Player.width = parseInt(canvas.width * 0.075)
+                        this.x = canvas.width / 2 - Player.width / 2
+                        this.yvel--
+                        break
+                    default:
+                        break
+                }
+            }
+        })
+        document.addEventListener("keyup", e => {
+            if (Player.run) {
+                switch (e.key) {
+                    case "Shift":
+                        Player.height = parseInt(canvas.width * 0.1)
+                        Player.width = parseInt(canvas.width * 0.1)
+                        this.x = canvas.width / 2 - Player.width / 2
                         break
                     default:
                         break

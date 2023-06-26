@@ -1,5 +1,4 @@
 import { Obstacle } from "./Obstacle.js"
-import { Player } from "./Player.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
@@ -19,11 +18,18 @@ export class Floor {
         this.height = parseInt(height)
         this.color = color
         this.x = canvas.width
-        this.y = canvas.height - (Math.random() < 0.3 ? parseInt(Player.size * (1 + Math.random())) : 0)
+
+        const chance = Math.random()
+        if (chance < 0.3) {
+            this.y = canvas.height - parseInt((canvas.width * 0.1) * (1.2 + Math.random()))
+            if (chance < 0.15) this.slow = true
+        } else {
+            this.y = canvas.height
+        }
     }
 
     tick() {
-        this.x -= Math.floor(Obstacle.speed)
+        this.x -= Obstacle.speed / (this.slow ? 2 : 1)
         if (this.x < 0 - this.width) Floor.transformRandom()
         this.draw()
     }
@@ -43,6 +49,6 @@ export class Floor {
  */
 const floors = [
     () => new Floor(canvas.width * 0.3, 5, '#000'),
-    () => new Floor(canvas.width * 0.02, canvas.width * 0.1, '#000'),
+    () => new Floor(2, canvas.width * 0.12, '#000'),
     () => new Floor(canvas.width / 2, 3, '#000'),
 ]

@@ -29,11 +29,11 @@ Floor.transformRandom()
 async function run() {
     while (Player.run) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-    
+
         if (!obs.collided && player.x < obs.x + obs.width &&
-            player.x + Player.size > obs.x &&
+            player.x + Player.width > obs.x &&
             player.y < obs.y + obs.height &&
-            player.y + Player.size > obs.y) {
+            player.y + Player.height > obs.y) {
     
             for (let i = 0; i < 5; i++) {
                 if (score > scores[i].score) {
@@ -62,8 +62,8 @@ async function run() {
             obs.collided = true
         }
 
-        obs.tick()
         Floor.floor.tick()
+        obs.tick()
         player.tick()
     
         if (obs.change) obs = Obstacle.getRandom()
@@ -74,7 +74,7 @@ async function run() {
         jumpSpan.innerText = player.jumpHeight
         gravitySpan.innerText = player.gravity
     
-        await new Promise(r => setTimeout(r, 30))
+        await new Promise(r => setTimeout(r, 16))
     }
 }
 
@@ -91,11 +91,12 @@ export function drawScores() {
 }
 
 document.addEventListener('keydown', e => {
-    if (e.key == 'Escape') {
+    if (['Escape', ' '].includes(e.key)) {
         if (!Player.run) {
+            e.preventDefault()
             Player.run = true
             run()
-        } else {
+        } else if (e.key == 'Escape') {
             Player.run = false
         }
     }
