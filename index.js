@@ -39,16 +39,17 @@ async function run() {
                 if (score > scores[i].score) {
                     let name = prompt("Digite um nome:", lastName)
                     if (name) {
+                        name = name.trim()
                         let pre = scores.findIndex(e => e.name == name)
                         if (pre != -1) {
                             if (scores[pre].score < score) {
                                 scores.splice(pre, 1)
-                                scores.push({name: name.trim(), score})
-                                lastName = name.trim()
+                                scores.push({name: name, score})
+                                lastName = name
                             }
                         } else {
-                            scores.push({name: name.trim(), score})
-                            lastName = name.trim()
+                            scores.push({name: name, score})
+                            lastName = name
                         }
                         drawScores()
                         localStorage.scores = JSON.stringify(scores)
@@ -70,10 +71,10 @@ async function run() {
 
         scoreSpan.innerText = score
         score++
-        speedSpan.innerText = parseInt(Obstacle.speed)
+        speedSpan.innerText = Obstacle.speed.toFixed(2)
         jumpSpan.innerText = player.jumpHeight
-        gravitySpan.innerText = player.gravity
-    
+        gravitySpan.innerText = player.gravity.toFixed(2)
+
         await new Promise(r => setTimeout(r, 16))
     }
 }

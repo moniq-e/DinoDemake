@@ -49,6 +49,5 @@ export class Floor {
  */
 const floors = [
     () => new Floor(canvas.width * 0.3, 5, '#000'),
-    () => new Floor(2, canvas.width * 0.12, '#000'),
     () => new Floor(canvas.width / 2, 3, '#000'),
 ]

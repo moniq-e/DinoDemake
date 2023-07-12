@@ -21,8 +21,3 @@ document.querySelector("#hard").addEventListener("click", _ => {
 document.querySelector("#infinity").addEventListener("click", _ => {
     Player.options.infinity = !Player.options.infinity
 })
-
-document.querySelector("#heavy").addEventListener("click", _ => {
-    Player.options.heavy = !Player.options.heavy
-    Player.minJumpHeight = Player.options.heavy ? 9 : 6
-})

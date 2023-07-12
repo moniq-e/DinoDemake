@@ -3,7 +3,7 @@
 }
 
 canvas {
-    width: 80%;
+    width: 85%;
     height: auto;
     background-color: rgb(255, 209, 82);;
     image-rendering: pixelated;
@@ -17,20 +17,35 @@ body {
     align-items: center;
 }
 
+main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+
 span {
     color: deeppink;
     font-size: large;
 }
 
+#buttons {
+    margin: 0 20px 0 20px;
+}
+
 #buttons div {
-    display: inline-block;
     border: 2px solid deeppink;
     border-radius: 5px;
     margin: 5px;
     padding: 5px;
+    text-align: center;
 }
 
 #buttons div:hover {
     background-color: deeppink;
     cursor: pointer;
+}
+
+#scores {
+    margin-right: auto;
 }

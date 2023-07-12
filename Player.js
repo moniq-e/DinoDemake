@@ -30,7 +30,7 @@ export class Player {
 
     tick() {
         this.y -= this.yvel
-        this.gravity = Player.options.heavy ? (Obstacle.speed * 0.2) : 0.5
+        this.gravity = Player.options.heavy ? (Obstacle.speed * 0.1) : 0.5
         this.yvel -= this.gravity
         this.jumpHeight = Player.minJumpHeight + parseInt(Obstacle.speed * 0.25)
 
@@ -40,7 +40,7 @@ export class Player {
             this.jumps = 0
         } else if (this.y < 0) {
             this.y = 0
-            this.yvel = 0
+            this.yvel--
         } else if (this.x < Floor.floor.x + Floor.floor.width &&
             this.x + Player.width > Floor.floor.x &&
             this.y < Floor.floor.y + Floor.floor.height &&
@@ -77,35 +77,12 @@ export class Player {
         })
         document.addEventListener("keydown", e => {
             if (Player.run) {
-                switch (e.key) {
-                    case " ":
-                        if (this.jumps < 2) {
-                            this.yvel = this.jumpHeight
-                            this.jumps++
-                        }
-                        e.preventDefault()
-                        break
-                    case "Shift":
-                        Player.height = parseInt(canvas.width * 0.025)
-                        Player.width = parseInt(canvas.width * 0.075)
-                        this.x = canvas.width / 2 - Player.width / 2
-                        this.yvel--
-                        break
-                    default:
-                        break
-                }
-            }
-        })
-        document.addEventListener("keyup", e => {
-            if (Player.run) {
-                switch (e.key) {
-                    case "Shift":
-                        Player.height = parseInt(canvas.width * 0.1)
-                        Player.width = parseInt(canvas.width * 0.1)
-                        this.x = canvas.width / 2 - Player.width / 2
-                        break
-                    default:
-                        break
+                if (e.key == " ") {
+                    if (this.jumps < 2) {
+                        this.yvel = this.jumpHeight
+                        this.jumps++
+                    }
+                    e.preventDefault()
                 }
             }
         })

@@ -4,17 +4,22 @@
         <meta charset="UTF-8">
         <title>Lixossauro</title>
         <link rel="stylesheet" href="style.css">
+        <link rel="shortcut icon" href="blacksquare.png" type="image/x-icon">
         <script src="index.js" type="module" defer></script>
     </head>
     <body>
-        <canvas></canvas><br>
-        <p>Speed: <span id="spe"></span>m/s | JumpHeight: <span id="jum"></span> | Gravity: <span id="gra"></span> | Score: <span id="scr"></span></p>
-        <div id="buttons">
-            <div id="mousejump">Habilitar pulo com mouse</div>
-            <div id="hard">Hard mode</div>
-            <div id="infinity">Infinity mode</div>
-            <div id="heavy">Heavy mode</div>
-        </div>
-        <p>Highest Scores: <ol></ol></p>
+        <canvas></canvas>
+        <main>
+            <div id="scores">
+                <p>Highest Scores:</p>
+                <ol></ol>
+            </div>
+            <div id="buttons">
+                <div id="mousejump">Habilitar pulo com mouse</div>
+                <div id="hard">Hard mode</div>
+                <div id="infinity">Infinity mode</div>
+            </div>
+            <p>Speed: <span id="spe"></span>m/s<br>JumpHeight: <span id="jum"></span><br>Gravity: <span id="gra"></span><br>Score: <span id="scr"></span></p>
+        </main>
     </body>
 </html>
