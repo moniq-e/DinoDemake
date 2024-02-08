@@ -91,6 +91,10 @@ export function drawScores() {
     }
 }
 
+function moveAside(key) {
+    Player.x += key == 'a' ? -1 : 1
+}
+
 document.addEventListener('keydown', e => {
     if (['Escape', ' '].includes(e.key)) {
         if (!Player.run) {
@@ -100,5 +104,7 @@ document.addEventListener('keydown', e => {
         } else if (e.key == 'Escape') {
             Player.run = false
         }
+    } else if ('ad'.includes(e.key)) {
+        moveAside(e.key)
     }
 })
