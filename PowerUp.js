@@ -1,4 +1,5 @@
 import { Obstacle } from "./Obstacle.js"
+import { speedSkill, gravitySkill, scoreSkill } from "./index.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
@@ -10,28 +11,34 @@ export class PowerUp {
     static powerup
     constructor() {
         this.x = canvas.width
-        this.r = 4
+        this.width = 4
+        this.height = 4
+        this.speed = .75
 
         const chance = Math.random()
         if (chance < 0.1) {
-            this.y = parseInt((Math.random() * canvas.height * 0.75) + this.r)
-            if (chance < 0.05) this.slow = true
+            this.y = parseInt((Math.random() * canvas.height * 0.75))
+            if (chance < 0.05) this.speed = .5
         } else {
-            this.y = canvas.height + this.r
+            this.y = canvas.height
+            this.speed = 1
         }
     }
 
     tick() {
-        this.x -= Obstacle.speed / (this.slow ? 2 : 1)
+        this.x -= Obstacle.speed * this.speed
         if (this.x < 0) PowerUp.transformRandom()
         this.draw()
     }
 
     draw() {
         ctx.fillStyle = randomRGB()
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-        ctx.fill();
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+    }
+
+    collided() {
+        this.y = canvas.height
+        skills[Math.floor(Math.random() * skills.length)]()
     }
 
     static transformRandom() {
@@ -49,3 +56,9 @@ function randomRGB() {
     
     return "rgb("+r+","+g+"," +b+" )"
 }
+
+const skills = [
+    speedSkill,
+    gravitySkill,
+    scoreSkill
+]

@@ -1,5 +1,6 @@
 import { Floor } from "./Floor.js"
 import { Obstacle } from "./Obstacle.js"
+import { PowerUp } from "./PowerUp.js"
 
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
@@ -8,8 +9,7 @@ export class Player {
     static options = {
         mousejump: false,
         hard: false,
-        infinity: false,
-        heavy: false
+        infinity: false
     }
     static run = false
     static width = parseInt(canvas.width * 0.1)
@@ -19,6 +19,7 @@ export class Player {
     jumpHeight = 0
     jumps = 0
     fall = false
+    invincible = false
 
     constructor() {
         this.x = canvas.width / 2 - Player.width / 2
@@ -30,7 +31,6 @@ export class Player {
 
     tick() {
         this.y -= this.yvel
-        this.gravity = Player.options.heavy ? (Obstacle.speed * 0.1) : 0.5
         this.yvel -= this.gravity
         this.jumpHeight = Player.minJumpHeight + parseInt(Obstacle.speed * 0.25)
 
@@ -53,12 +53,18 @@ export class Player {
         } else if (this.x > Floor.floor.x + Floor.floor.width && this.fall) {
             this.fall = false
             this.yvel = this.jumpHeight
+        } else if (this.x < PowerUp.powerup.x + PowerUp.powerup.width &&
+            this.x + Player.width > PowerUp.powerup.x &&
+            this.y < PowerUp.powerup.y + PowerUp.powerup.height &&
+            this.y + Player.height > PowerUp.powerup.y) {
+
+            PowerUp.powerup.collided()
         }
         this.draw()
     }
 
     draw() {
-        ctx.fillStyle = '#000'
+        ctx.fillStyle = this.invincible ? 'rgba(0, 0, 0, 0.5)' : '#000'
         ctx.fillRect(this.x, this.y, Player.width, Player.height)
     }
 

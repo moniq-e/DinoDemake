@@ -32,37 +32,39 @@ async function run() {
     while (Player.run) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-        if (!obs.collided && player.x < obs.x + obs.width &&
-            player.x + Player.width > obs.x &&
-            player.y < obs.y + obs.height &&
-            player.y + Player.height > obs.y) {
-    
-            for (let i = 0; i < 5; i++) {
-                if (score > scores[i].score) {
-                    let name = prompt("Digite um nome:", lastName)
-                    if (name) {
-                        name = name.trim()
-                        let pre = scores.findIndex(e => e.name == name)
-                        if (pre != -1) {
-                            if (scores[pre].score < score) {
-                                scores.splice(pre, 1)
+        if (!player.invincible) {
+            if (!obs.collided && player.x < obs.x + obs.width &&
+                player.x + Player.width > obs.x &&
+                player.y < obs.y + obs.height &&
+                player.y + Player.height > obs.y) {
+        
+                for (let i = 0; i < 5; i++) {
+                    if (score > scores[i].score) {
+                        let name = prompt("Digite um nome:", lastName)
+                        if (name) {
+                            name = name.trim()
+                            let pre = scores.findIndex(e => e.name == name)
+                            if (pre != -1) {
+                                if (scores[pre].score < score) {
+                                    scores.splice(pre, 1)
+                                    scores.push({name: name, score})
+                                    lastName = name
+                                }
+                            } else {
                                 scores.push({name: name, score})
                                 lastName = name
                             }
-                        } else {
-                            scores.push({name: name, score})
-                            lastName = name
+                            drawScores()
+                            localStorage.scores = JSON.stringify(scores)
                         }
-                        drawScores()
-                        localStorage.scores = JSON.stringify(scores)
+                        break
                     }
-                    break
                 }
+        
+                score = 0
+                Obstacle.speed = Obstacle.minSpeed
+                obs.collided = true
             }
-    
-            score = 0
-            Obstacle.speed = Obstacle.minSpeed
-            obs.collided = true
         }
 
         Floor.floor.tick()
@@ -105,3 +107,29 @@ document.addEventListener('keydown', e => {
         }
     }
 })
+
+let invincibleTimeout
+export function speedSkill() {
+    Obstacle.speed -= Obstacle.speed / 2
+    setInvincible(2000)
+}
+
+let gravityTimeout
+export function gravitySkill() {
+    player.gravity = .25
+    player.jumps = -999
+    clearTimeout(gravityTimeout)
+    gravityTimeout = setTimeout(() => { player.gravity = 0.5 }, 5000)
+    setInvincible(3000)
+}
+
+export function scoreSkill() {
+    score = parseInt(score * 1.1)
+    setInvincible(1000)
+}
+
+function setInvincible(ms) {
+    player.invincible = true
+    clearTimeout(invincibleTimeout)
+    invincibleTimeout = setTimeout(() => { player.invincible = false }, ms)
+}
