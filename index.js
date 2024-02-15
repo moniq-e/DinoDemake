@@ -75,7 +75,7 @@ async function run() {
         if (obs.change) obs = Obstacle.getRandom()
 
         scoreSpan.innerText = score
-        score++
+        score += parseInt(Obstacle.speed / 2)
         speedSpan.innerText = Obstacle.speed.toFixed(2)
         jumpSpan.innerText = player.jumpHeight
         gravitySpan.innerText = player.gravity.toFixed(2)
