@@ -1,6 +1,7 @@
 import { Player } from "./Player.js"
 import { Obstacle } from "./Obstacle.js"
 import { Floor } from "./Floor.js"
+import { PowerUp } from "./PowerUp.js"
 import "./options.js"
 
 const canvas = document.querySelector("canvas")
@@ -25,6 +26,7 @@ if (localStorage.scores) {
 
 let obs = Obstacle.getRandom()
 Floor.transformRandom()
+PowerUp.transformRandom()
 
 async function run() {
     while (Player.run) {
@@ -64,6 +66,7 @@ async function run() {
         }
 
         Floor.floor.tick()
+        PowerUp.powerup.tick()
         obs.tick()
         player.tick()
     
@@ -91,10 +94,6 @@ export function drawScores() {
     }
 }
 
-function moveAside(key) {
-    Player.x += key == 'a' ? -1 : 1
-}
-
 document.addEventListener('keydown', e => {
     if (['Escape', ' '].includes(e.key)) {
         if (!Player.run) {
@@ -104,7 +103,5 @@ document.addEventListener('keydown', e => {
         } else if (e.key == 'Escape') {
             Player.run = false
         }
-    } else if ('ad'.includes(e.key)) {
-        moveAside(e.key)
     }
 })
