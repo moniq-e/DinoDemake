@@ -69,16 +69,18 @@ export class Player {
     }
 
     setListener() {
-        document.querySelector("canvas").addEventListener("click", _ => {
-            if (Player.options.mousejump && this.jumps < 2) {
+        document.querySelector("canvas").addEventListener("mousedown", e => {
+            if (Player.options.mousejump && (this.jumps < 2 || this.gravity == .25)) {
                 this.yvel = this.jumpHeight
                 this.jumps++
+                e.preventDefault()
             }
         })
-        document.querySelector("canvas").addEventListener("touchstart", _ => {
-            if (Player.options.mousejump && this.jumps < 2) {
+        document.querySelector("canvas").addEventListener("touchstart", e => {
+            if (Player.options.mousejump && (this.jumps < 2 || this.gravity == .25)) {
                 this.yvel = this.jumpHeight
                 this.jumps++
+                e.preventDefault()
             }
         })
         document.addEventListener("keydown", e => {

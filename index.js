@@ -108,6 +108,22 @@ document.addEventListener('keydown', e => {
     }
 })
 
+canvas.addEventListener('touchstart', e => {
+    if (!Player.run && Player.options.mousejump) {
+        e.preventDefault()
+        Player.run = true
+        run()
+    }
+})
+
+canvas.addEventListener('mousedown', e => {
+    if (!Player.run && Player.options.mousejump) {
+        e.preventDefault()
+        Player.run = true
+        run()
+    }
+})
+
 let invincibleTimeout
 export function speedSkill() {
     Obstacle.speed -= Obstacle.speed / 2
