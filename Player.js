@@ -30,6 +30,7 @@ export class Player {
     }
 
     tick() {
+        this.draw()
         this.y -= this.yvel
         this.yvel -= this.gravity
         this.jumpHeight = Player.minJumpHeight + parseInt(Obstacle.speed * 0.25)
@@ -60,7 +61,6 @@ export class Player {
 
             PowerUp.powerup.collided()
         }
-        this.draw()
     }
 
     draw() {
@@ -84,7 +84,7 @@ export class Player {
         document.addEventListener("keydown", e => {
             if (Player.run) {
                 if (e.key == " ") {
-                    if (this.jumps < 2) {
+                    if (this.jumps < 2 || this.gravity == .25) {
                         this.yvel = this.jumpHeight
                         this.jumps++
                     }

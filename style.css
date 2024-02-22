@@ -5,7 +5,7 @@
 canvas {
     width: 85%;
     height: auto;
-    background-color: rgb(255, 209, 82);;
+    background-color: rgb(255, 209, 82);
     image-rendering: pixelated;
 }
 

@@ -13,12 +13,12 @@ export class PowerUp {
         this.x = canvas.width
         this.width = 4
         this.height = 4
-        this.speed = .75
+        this.speed = .5
 
         const chance = Math.random()
         if (chance < 0.1) {
             this.y = parseInt((Math.random() * canvas.height * 0.75))
-            if (chance < 0.05) this.speed = .5
+            if (chance < 0.05) this.speed = .25
         } else {
             this.y = canvas.height
             this.speed = 1

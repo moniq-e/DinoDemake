@@ -117,7 +117,6 @@ export function speedSkill() {
 let gravityTimeout
 export function gravitySkill() {
     player.gravity = .25
-    player.jumps = -999
     clearTimeout(gravityTimeout)
     gravityTimeout = setTimeout(() => { player.gravity = 0.5 }, 5000)
     setInvincible(3000)
